@@ -123,6 +123,12 @@
   #define NOT_TARGET NONE
 #endif
 
+#ifndef NO_CONTROLLER_CUSTOM_WIRING_WARNING
+  #define CONTROLLER_WARNING(PF,CN,V...) static_assert(false, "\n\nWARNING! " CN " requires wiring modification! See pins_" PF ".h for details." V "\n (Define NO_CONTROLLER_CUSTOM_WIRING_WARNING to suppress this warning.)\n\n");
+#else
+  #define CONTROLLER_WARNING(...)
+#endif
+
 //
 // RAMPS 1.3 / 1.4 / 1.6+ - ATmega1280, ATmega2560
 //
@@ -224,6 +230,8 @@
   #include "ramps/pins_RAMPS_CREALITY.h"            // ATmega2560                           env:mega2560
 #elif MB(DAGOMA_F5)
   #include "ramps/pins_DAGOMA_F5.h"                 // ATmega2560                           env:mega2560
+#elif MB(DAGOMA_D6)
+  #include "ramps/pins_DAGOMA_D6.h"                 // ATmega2560                           env:mega2560ext
 #elif MB(FYSETC_F6_13)
   #include "ramps/pins_FYSETC_F6_13.h"              // ATmega2560                           env:FYSETC_F6
 #elif MB(FYSETC_F6_14)
@@ -919,7 +927,7 @@
 //
 
 #elif MB(SIMULATED)
-  #include "linux/pins_RAMPS_LINUX.h"               // Native or Simulation                 lin:linux_native mac:simulator_macos_debug mac:simulator_macos_release win:simulator_windows lin:simulator_linux_debug lin:simulator_linux_release
+  #include "native/pins_RAMPS_NATIVE.h"             // Native or Simulation                 lin:linux_native mac:simulator_macos_debug mac:simulator_macos_release win:simulator_windows lin:simulator_linux_debug lin:simulator_linux_release
 
 #else
 
@@ -1070,3 +1078,6 @@
 // Post-process pins according to configured settings
 //
 #include "pins_postprocess.h"
+
+// Cleanup
+#undef CONTROLLER_WARNING
