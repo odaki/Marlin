@@ -190,7 +190,6 @@
   #define SD_MISO_PIN                       PC8
   #define SD_MOSI_PIN                       PD2
   #define SD_SS_PIN            ONBOARD_SD_CS_PIN
-  #define SDSS                         SD_SS_PIN
 #endif
 
 //
